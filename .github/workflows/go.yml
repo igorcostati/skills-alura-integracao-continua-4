@@ -67,6 +67,7 @@ jobs:
   
 
   docker:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -111,6 +112,7 @@ jobs:
   #  secrets: inherit
   
   EC2:
+    needs: docker
     runs-on: ubuntu-latest
     steps:
 
