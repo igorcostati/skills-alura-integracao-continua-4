@@ -9,7 +9,7 @@ on:
 jobs:
 
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     env:
       HOST: localhost
       DBPORT: 5432
@@ -18,8 +18,7 @@ jobs:
       DBNAME: root
     strategy:
       matrix:
-        go_version: ['1.18']
-        os: ['ubuntu-latest']
+        go_version: ['1.18'] 
     steps:
     - uses: actions/checkout@v3
 
