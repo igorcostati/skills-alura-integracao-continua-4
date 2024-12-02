@@ -60,94 +60,12 @@ jobs:
         path: main
 
 
-  #docker:
-  #  needs: build
-  #  uses: ./.github/workflows/Docker.yml
-  #  secrets: inherit
-  
-
   docker:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: setup Docker Build
-      uses: docker/setup-buildx-action@v2.0.0
-      
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-    # Artifact name
-        name: programa
-      
-    - name: Docker Login
-  # You may pin to the exact commit or the version.
-  # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
-      uses: docker/login-action@v2.0.0
-      with:
-    # Username used to log against the Docker registry
-        username: ${{ secrets.USERNAME_DOCKER_HUB }}
-    # Password or personal access token used to log against the Docker registry
-        password: ${{ secrets.PASSWORD_DOCKER_HUB }}
-        
-        
-    - name: Build and push Docker images
-  # You may pin to the exact commit or the version.
-  # uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
-      uses: docker/build-push-action@v3.0.0
-      with:
-    # Build's context is the set of files located in the specified PATH or URL
-        context: .
-    # Path to the Dockerfile
-        file: ./Dockerfile
-    # Push is a shorthand for --output=type=registry
-        push: true
-    # List of tags
-        tags: igorcostati/go_ci:${{github.ref_name}}
-
-  #Deploy_EC2:
-  #  needs: build
-  #  uses: ./.github/workflows/EC2.yml
-  #  secrets: inherit
+    uses: ./.github/workflows/Docker.yml
+    secrets: inherit
   
-  EC2:
+  Deploy_EC2:
     needs: docker
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-        name: programa
-    
-    - uses: actions/checkout@v3
-
-    - name: Deploy to Staging server
-      uses: easingthemes/ssh-deploy@main
-      with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        TARGET: /home/${{ secrets.REMOTE_USER }}
-        EXCLUDE: "postgres-data"
-    
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.2.0
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          export HOST=${{ secrets.DBHOST }}
-          export USER=${{ secrets.DBUSER }}
-          export PASSWORD=${{ secrets.DBPASSWORD }}
-          export DBNAME=${{ secrets.DBNAME }}
-          export DBPORT=${{ secrets.DBPORT }}
-          export PORT=8000
-          chmod +x main
-          nohup ./main > nohup.out 2> nohup.err < /dev/null &
-
-
-          
+    uses: ./.github/workflows/EC2.yml
+    secrets: inherit
