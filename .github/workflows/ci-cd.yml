@@ -42,7 +42,7 @@ jobs:
         path: myapp.tar
 
     - name: Copy Docker image to EC2
-      uses: appleboy/scp-action@v0.1.3
+      uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
