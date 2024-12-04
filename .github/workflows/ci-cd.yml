@@ -60,7 +60,9 @@ jobs:
           sudo apt-get update -y
           curl -fsSL https://get.docker.com -o get-docker.sh
           sudo sh get-docker.sh
-          sudo service docker start
+          sudo service docker start          
+          sudo usermod -aG docker $USER
+          newgrp docker
           docker --version
           export HOST=${{ secrets.DBHOST }}
           export USER=${{ secrets.DBUSER }}
