@@ -70,8 +70,8 @@ jobs:
           export DBNAME=${{ secrets.DBNAME }}
           export DBPORT=${{ secrets.DBPORT }}
           export PORT=8000
-          docker --version
-          docker load -i ~/myapp.tar
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d --name myapp -p 8080:8080 myapp:latest
+          
+          sudo docker load -i ~/myapp.tar
+          sudo docker stop myapp || true
+          sudo docker rm myapp || true
+          sudo docker run -d --name myapp -p 8080:8080 myapp:latest
