@@ -22,9 +22,7 @@ jobs:
       run: docker build -t myapp:latest .
 
     - name: Save Docker image to a tar file
-      run: |
-        docker save myapp:latest -o myapp.tar
-        ls -l myapp.tar
+      run: docker save -o myapp.tar myapp:latest 
 
     - name: Upload Docker image as artifact
       uses: actions/upload-artifact@v3.0.0
@@ -73,7 +71,7 @@ jobs:
           export DBPORT=${{ secrets.DBPORT }}
           export PORT=8000
           
-          sudo docker load -i ~/myapp.tar
+          sudo docker load -i myapp.tar
           sudo docker stop myapp || true
           sudo docker rm myapp || true
           sudo docker run -d --name myapp -p 8080:8080 myapp:latest
