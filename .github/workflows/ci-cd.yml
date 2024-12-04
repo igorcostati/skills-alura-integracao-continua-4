@@ -7,8 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -71,7 +70,7 @@ jobs:
           export DBPORT=${{ secrets.DBPORT }}
           export PORT=8000
           
-          sudo docker load -i myapp.tar
+          sudo docker load -i ~/myapp.tar
           sudo docker stop myapp || true
           sudo docker rm myapp || true
           sudo docker run -d --name myapp -p 8080:8080 myapp:latest
