@@ -53,7 +53,8 @@ jobs:
     - name: Update and install dependencies
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y docker.io
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sudo sh get-docker.sh
     
     - name: Start Docker service
       run: |
