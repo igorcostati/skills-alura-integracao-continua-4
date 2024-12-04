@@ -49,19 +49,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "myapp.tar"
         target: "~/myapp.tar"
-
-    - name: Update and install dependencies
-      run: |
-        sudo apt-get update -y
-        curl -fsSL https://get.docker.com -o get-docker.sh
-        sudo sh get-docker.sh
-    
-    - name: Start Docker service
-      run: |
-        sudo service docker start
-        
-    # sudo usermod -a -G docker ubuntu
-
+ 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
       with:
@@ -69,6 +57,11 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          sudo apt-get update -y
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo sh get-docker.sh
+          sudo service docker start
+          docker --version
           export HOST=${{ secrets.DBHOST }}
           export USER=${{ secrets.DBUSER }}
           export PASSWORD=${{ secrets.DBPASSWORD }}
