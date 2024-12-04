@@ -12,7 +12,8 @@ jobs:
       uses: actions/download-artifact@v3.0.0
       with:
         name: programa    
-    - uses: actions/checkout@v3
+        path: ./main
+    # - uses: actions/checkout@v3
 
     - name: Deploy to Staging server
       uses: easingthemes/ssh-deploy@main
