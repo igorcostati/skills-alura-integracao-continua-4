@@ -63,7 +63,8 @@ jobs:
     - name: Start Docker service
       run: |
         sudo service docker start
-        sudo usermod -a -G docker ubuntu
+        
+    # sudo usermod -a -G docker ubuntu
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
