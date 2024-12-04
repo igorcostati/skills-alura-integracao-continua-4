@@ -49,10 +49,13 @@ jobs:
         source: "myapp.tar"
         target: "~/myapp.tar"
 
-    - name: Set up Docker
+    - name: Update and install dependencies
       run: |
         sudo yum update -y
         sudo amazon-linux-extras install docker -y
+    
+    - name: Start Docker service
+      run: |
         sudo service docker start
         sudo usermod -a -G docker ec2-user
 
@@ -69,6 +72,7 @@ jobs:
           export DBNAME=${{ secrets.DBNAME }}
           export DBPORT=${{ secrets.DBPORT }}
           export PORT=8000
+          docker --version
           docker load -i ~/myapp.tar
           docker stop myapp || true
           docker rm myapp || true
