@@ -1,6 +1,4 @@
-FROM ubuntu:latest
-
-EXPOSE 8000
+FROM golang:1.18-alpine
 
 WORKDIR /app
 
@@ -8,6 +6,14 @@ ENV HOST=localhost DBPORT=5432
 
 ENV USER=root PASSWORD=root DBNAME=root
 
-COPY ./main main
+COPY go.mod go.sum ./
 
-CMD [ "./main" ]
+RUN go mod download
+
+COPY . .
+
+RUN go build -o main .
+
+EXPOSE 8080
+
+CMD ["./main"]
