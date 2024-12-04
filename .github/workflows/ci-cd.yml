@@ -62,7 +62,7 @@ jobs:
           sudo sh get-docker.sh
           sudo service docker start          
           sudo usermod -aG docker $USER
-          newgrp docker
+          sudo chmod 666 /var/run/docker.sock
           docker --version
           export HOST=${{ secrets.DBHOST }}
           export USER=${{ secrets.DBUSER }}
