@@ -50,12 +50,18 @@ jobs:
         target: "~/myapp.tar"
 
     - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.3
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          export HOST=${{ secrets.DBHOST }}
+          export USER=${{ secrets.DBUSER }}
+          export PASSWORD=${{ secrets.DBPASSWORD }}
+          export DBNAME=${{ secrets.DBNAME }}
+          export DBPORT=${{ secrets.DBPORT }}
+          export PORT=8000
           docker load -i ~/myapp.tar
           docker stop myapp || true
           docker rm myapp || true
