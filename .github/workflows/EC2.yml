@@ -11,8 +11,7 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.0
       with:
-        name: programa
-    
+        name: programa    
     - uses: actions/checkout@v3
 
     - name: Deploy to Staging server
