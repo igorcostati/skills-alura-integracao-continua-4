@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: fedora-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -51,8 +51,8 @@ jobs:
 
     - name: Update and install dependencies
       run: |
-        sudo yum update -y
-        sudo amazon-linux-extras install docker -y
+        sudo apt-get update -y
+        sudo apt-get install docker.io -y
     
     - name: Start Docker service
       run: |
